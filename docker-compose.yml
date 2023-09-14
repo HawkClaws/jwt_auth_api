@@ -1,0 +1,14 @@
+version: '3'
+services:
+  app:
+    container_name: jwt_auth_app
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app
+    environment:
+      ISSUER: jwt_auth_app_issuer
+      AUDIENCE: jwt_auth_app_audience
+      EXP_MINUTES: 60
+    command: ["sh", "-c", "python create_key.py && gunicorn -w 4 -b 0.0.0.0:5000 app:app"]
